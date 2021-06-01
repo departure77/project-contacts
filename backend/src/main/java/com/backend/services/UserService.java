@@ -55,11 +55,11 @@ public class UserService {
                 throw new ApiException(409, "El usuario ya existe");
             }
 
-            if (in.getUsername().length() <= 40 &&
-                    in.getPassword().length() <= 40 &&
-                    in.getMail().length() <= 50 &&
+            if (in.getUsername().length() <= 40 && in.getUsername().length() >= 5 &&
+                    in.getPassword().length() <= 40 && in.getPassword().length() >=5 &&
+                    in.getMail().length() <= 50 && in.getMail().length() >=5  &&
                     in.getName().length() <= 70 &&
-                    in.getSurname().length() <= 70) {
+                    in.getSurname().length() <= 70 ) {
 
                 UserModels user = new UserModels();
                 user.setUsername(in.getUsername());
@@ -111,9 +111,27 @@ public class UserService {
                 if (body.getUsername() != null){
                     in.setUsername(body.getUsername());
                 }
+
+                if (body.getMail() !=  null){
+                    in.setMail(body.getMail());
+                }
+
                 if (body.getPassword() != null){
                     in.setPassword(body.getPassword());
                 }
+
+                if (body.getNewPassword() != null){
+
+                    if (in.getPassword().equals(body.getPassword()) && body.getNewPassword().length() > 8 &&
+                        body.getNewPassword().length() < 50){
+
+                        in.setPassword(body.getNewPassword());
+
+                    } else {
+                        throw new ApiException(400, "Los datos enviados no son validos.");
+                    }
+                }
+
 
                 userRepository.save(in);
                 return in.getIdUser();
