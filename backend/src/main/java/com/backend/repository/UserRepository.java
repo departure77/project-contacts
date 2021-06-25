@@ -11,6 +11,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<UserModels, Integer> {
 
-    @Query(value = "select * from users where username = ?1 and mail = ?2" , nativeQuery = true)
+    @Query(value = "select * from usuarios where username = ?1 and mail = ?2" , nativeQuery = true)
     Optional<UserModels> chekRepeatUser (String username, String mail);
 }

@@ -59,7 +59,7 @@ public class UserService {
                     in.getPassword().length() <= 40 && in.getPassword().length() >=5 &&
                     in.getMail().length() <= 50 && in.getMail().length() >=5  &&
                     in.getName().length() <= 70 &&
-                    in.getSurname().length() <= 70 ) {
+                    in.getSurname().length() <= 70) {
 
                 UserModels user = new UserModels();
                 user.setUsername(in.getUsername());

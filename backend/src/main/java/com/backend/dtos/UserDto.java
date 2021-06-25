@@ -34,4 +34,5 @@ public class UserDto {
 
     @JsonProperty("creationDate")
     private Date creationDate;
+
 }

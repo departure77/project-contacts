@@ -1,7 +1,6 @@
 package com.backend.models;
 
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,16 +8,15 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Date;
 
-@Data
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
+@Table(name = "usuarios")
 public class UserModels {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
+    @Column(name = "id_usuario")
     private int idUser;
 
     @Column (name = "username")
