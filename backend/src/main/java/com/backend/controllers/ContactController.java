@@ -39,8 +39,27 @@ public class ContactController {
         }
     }
 
-    @GetMapping("")
-    public ResponseEntity<Integer> createContact(@RequestBody ContactDto body)
+    @PostMapping("")
+    public ResponseEntity<Integer> createContact(@RequestBody ContactDto body){
+
+        try{
+            Integer contact = contactsServices.createContact(body);
+            return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (ApiException error){
+            switch (error.getCode()){
+                case 409:
+                    log.error("ERROR : " + error.getMessage());
+                    return new ResponseEntity<>(HttpStatus.CONFLICT);
+                case 400:
+                    log.error("ERROR : " + error.getMessage());
+                    return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                default:
+                    log.error("ERROR : " + error.getMessage(), error);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
 
 
 }
