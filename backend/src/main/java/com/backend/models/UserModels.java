@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -42,6 +43,12 @@ public class UserModels {
 
     @Column (name = "creation_date")
     private Date creationDate;
+
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name = "id_usuario", referencedColumnName = "id_usuario", nullable = false, insertable = false, updatable = false)
+    private List<ContactsModels> contactos;
+
+
 
 
 

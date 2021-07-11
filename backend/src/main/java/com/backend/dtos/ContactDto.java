@@ -17,5 +17,8 @@ public class ContactDto {
     @JsonProperty("phoneNumber")
     private String phoneNumber;
 
+    @JsonProperty("idUser")
+    private Integer idUser;
+
 
 }

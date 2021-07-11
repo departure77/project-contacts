@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/contacts")
 public class ContactController {
@@ -39,21 +41,58 @@ public class ContactController {
         }
     }
 
-    @PostMapping("")
-    public ResponseEntity<Integer> createContact(@RequestBody ContactDto body){
+    @GetMapping("/all")
+    public ResponseEntity<List<GetContactDto>> pickAllContact(@RequestParam Integer idUser) {
 
-        try{
+        try {
+            List<GetContactDto> exit = contactsServices.pickAllContacts(idUser);
+            return new ResponseEntity<>(exit, HttpStatus.OK);
+
+        } catch (ApiException error) {
+            switch (error.getCode()) {
+                case 404:
+                    log.error("ERROR : " + error.getMessage());
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                default:
+                    log.error("ERROR : " + error.getMessage(), error);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Integer> createContact(@RequestBody ContactDto body) {
+
+        try {
             Integer contact = contactsServices.createContact(body);
             return new ResponseEntity<>(HttpStatus.OK);
 
-        } catch (ApiException error){
-            switch (error.getCode()){
+        } catch (ApiException error) {
+            switch (error.getCode()) {
                 case 409:
                     log.error("ERROR : " + error.getMessage());
                     return new ResponseEntity<>(HttpStatus.CONFLICT);
                 case 400:
                     log.error("ERROR : " + error.getMessage());
                     return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                default:
+                    log.error("ERROR : " + error.getMessage(), error);
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+    }
+
+    @DeleteMapping("")
+    public ResponseEntity<Void> deleteContact(@RequestParam Integer idContact) {
+
+        try {
+            contactsServices.deleteContact(idContact);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (ApiException error){
+            switch (error.getCode()){
+                case 404:
+                    log.error("ERROR : " + error.getMessage());
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 default:
                     log.error("ERROR : " + error.getMessage(), error);
                     return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

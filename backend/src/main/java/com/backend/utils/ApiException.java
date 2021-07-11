@@ -3,7 +3,7 @@ package com.backend.utils;
 import lombok.Data;
 import lombok.Getter;
 
-@Data
+
 @Getter
 public class ApiException extends RuntimeException {
 

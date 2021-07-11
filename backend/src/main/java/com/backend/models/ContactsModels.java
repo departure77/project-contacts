@@ -24,4 +24,11 @@ public class ContactsModels {
 
     @Column(name = "phone_number")
     private String phoneNumber;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="id_usuario", referencedColumnName = "id_usuario")
+    private UserModels usuario;
+
+
+
 }
