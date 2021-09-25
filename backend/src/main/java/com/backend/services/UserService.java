@@ -56,8 +56,8 @@ public class UserService {
             }
 
             if (in.getUsername().length() <= 40 && in.getUsername().length() >= 5 &&
-                    in.getPassword().length() <= 40 && in.getPassword().length() >=5 &&
-                    in.getMail().length() <= 50 && in.getMail().length() >=5  &&
+                    in.getPassword().length() <= 40 && in.getPassword().length() >= 5 &&
+                    in.getMail().length() <= 50 && in.getMail().length() >= 5 &&
                     in.getName().length() <= 70 &&
                     in.getSurname().length() <= 70) {
 
@@ -101,29 +101,29 @@ public class UserService {
         }
     }
 
-    public int refreshUser (int idUser, PutUserDto body){
+    public int refreshUser(int idUser, PutUserDto body) {
         try {
             Optional<UserModels> userDB = userRepository.findById(idUser);
 
-            if (userDB.isPresent()){
+            if (userDB.isPresent()) {
                 UserModels in = userDB.get();
 
-                if (body.getUsername() != null){
+                if (body.getUsername() != null) {
                     in.setUsername(body.getUsername());
                 }
 
-                if (body.getMail() !=  null){
+                if (body.getMail() != null) {
                     in.setMail(body.getMail());
                 }
 
-                if (body.getPassword() != null){
+                if (body.getPassword() != null) {
                     in.setPassword(body.getPassword());
                 }
 
-                if (body.getNewPassword() != null){
+                if (body.getNewPassword() != null) {
 
                     if (in.getPassword().equals(body.getPassword()) && body.getNewPassword().length() > 8 &&
-                        body.getNewPassword().length() < 50){
+                            body.getNewPassword().length() < 50) {
 
                         in.setPassword(body.getNewPassword());
 
@@ -138,9 +138,9 @@ public class UserService {
             } else {
                 throw new ApiException(404, "El usuario no existe.");
             }
-        } catch (ApiException error){
+        } catch (ApiException error) {
             throw error;
-        } catch (Exception error){
+        } catch (Exception error) {
             throw new ApiException(500, Constantes.GENERAL_ERROR);
         }
     }
