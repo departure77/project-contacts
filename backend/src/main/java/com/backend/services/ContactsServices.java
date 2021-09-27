@@ -118,4 +118,33 @@ public class ContactsServices {
             throw new ApiException(500, Constantes.GENERAL_ERROR);
         }
     }
+
+    public int refreshContact (int idContact, ContactDto body){
+        try{
+            Optional<ContactsModels> contactDB = contactsRepository.findById(idContact);
+
+            if (contactDB.isPresent()){
+                ContactsModels in = contactDB.get();
+
+                if (body.getName() != null){
+                    in.setName(body.getName());
+                }
+                if (body.getSurname() != null){
+                    in.setSurname(body.getSurname());
+                }
+                if (body.getPhoneNumber() != null){
+                    in.setPhoneNumber(body.getPhoneNumber());
+                }
+
+                contactsRepository.save(in);
+                return in.getIdContact();
+            } else {
+                throw new ApiException(404, Constantes.ERROR_NO_EXISTE);
+            }
+        }catch (ApiException error){
+            throw error;
+        } catch (Exception error){
+            throw new ApiException(500, Constantes.GENERAL_ERROR);
+        }
+    }
 }
