@@ -15,7 +15,7 @@ public interface ContactsRepository extends JpaRepository<ContactsModels, Intege
     Optional<ContactsModels> checkRepeatContact (String phoneNumber);
 
     @Query(value = "select * from contactos where id_usuario = ?1" , nativeQuery = true)
-    List<ContactsModels> pickAllContacts (int idUser);
+    List<ContactsModels> pickAllContacts (Integer idUser);
 
 
 }

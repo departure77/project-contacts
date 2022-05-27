@@ -27,6 +27,7 @@ public class ContactsServices {
 
     public GetContactDto pickContact(int idContact) {
         try {
+
             Optional<ContactsModels> contacto = contactsRepository.findById(idContact);
 
             if (contacto.isPresent()) {
@@ -66,28 +67,27 @@ public class ContactsServices {
         }
     }
 
-    public Integer createContact(ContactDto entry) {
+    public Integer createContact(ContactDto newContact) {
         try {
 
-            Optional<UserModels> loggedUser = userRepository.findById(entry.getIdUser());
+            Optional<UserModels> loggedUser = userRepository.findById(newContact.getIdUser());
 
             if (!loggedUser.isPresent()) {
                 throw new ApiException(404, "El usuario no existe.");
             }
 
-
-            Optional<ContactsModels> existingContact = contactsRepository.checkRepeatContact(entry.getPhoneNumber());
+            Optional<ContactsModels> existingContact = contactsRepository.checkRepeatContact(newContact.getPhoneNumber());
             if (existingContact.isPresent()) {
                 throw new ApiException(409, "El contacto ya existe");
             }
 
-            if (entry.getName().length() <= 50 && entry.getSurname().length() <= 50
-                    && entry.getPhoneNumber().length() <= 50) {
+            if (newContact.getName().length() <= 50 && newContact.getSurname().length() <= 50
+                    && newContact.getPhoneNumber().length() <= 50) {
 
                 ContactsModels contact = new ContactsModels();
-                contact.setName(entry.getName());
-                contact.setSurname(entry.getSurname());
-                contact.setPhoneNumber(entry.getPhoneNumber());
+                contact.setName(newContact.getName());
+                contact.setSurname(newContact.getSurname());
+                contact.setPhoneNumber(newContact.getPhoneNumber());
 
                 contact.setUsuario(loggedUser.get());
                 contact = contactsRepository.save(contact);

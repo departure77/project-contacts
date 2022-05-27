@@ -13,6 +13,7 @@ public class ContactsModels {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @Column(name = "id_contacto")
     private int idContact;
 

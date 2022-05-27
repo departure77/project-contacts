@@ -65,7 +65,7 @@ public class ContactController {
 
         try {
             Integer contact = contactsServices.createContact(body);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(contact, HttpStatus.OK);
 
         } catch (ApiException error) {
             switch (error.getCode()) {
